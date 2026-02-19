@@ -27,6 +27,12 @@ export interface SlideContentBlock {
   url?: string;
   // paragraph
   content?: string;
+  /**
+   * When true, this block only renders in article view.
+   * Useful for narrative paragraphs that provide reading context
+   * but would clutter a slide deck.
+   */
+  articleOnly?: boolean;
 }
 
 /**

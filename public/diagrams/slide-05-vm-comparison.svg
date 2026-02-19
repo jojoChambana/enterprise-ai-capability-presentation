@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="vm-title">
+  <title id="vm-title">Side-by-side comparison of typical dev VM versus AI Sandbox VM resource requirements</title>
+  <rect width="960" height="400" fill="#0f172a" rx="12"/>
+  <line x1="480" y1="24" x2="480" y2="376" stroke="#1e293b" stroke-width="2"/>
+  <rect x="32" y="24" width="420" height="52" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+  <text x="242" y="46" text-anchor="middle" fill="#cbd5e1" font-size="16" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Typical Dev VM</text>
+  <text x="242" y="66" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">runs one application at a time</text>
+  <rect x="508" y="24" width="420" height="52" rx="8" fill="#1e293b" stroke="#60a5fa" stroke-width="2"/>
+  <text x="718" y="46" text-anchor="middle" fill="#93c5fd" font-size="16" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">AI Sandbox VM</text>
+  <text x="718" y="66" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">runs five concurrent systems</text>
+  <text x="60" y="116" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">OS</text>
+  <text x="170" y="116" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Windows / Linux (any)</text>
+  <text x="60" y="156" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">CPU</text>
+  <text x="170" y="156" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">4–8 vCPU</text>
+  <text x="60" y="196" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">RAM</text>
+  <text x="170" y="196" fill="#fca5a5" font-size="14" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">8–16 GB</text>
+  <text x="60" y="236" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Storage</text>
+  <text x="170" y="236" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">256–512 GB</text>
+  <text x="60" y="276" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">GPU</text>
+  <text x="170" y="276" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Not required</text>
+  <text x="60" y="316" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Concurrency</text>
+  <text x="170" y="316" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">1 active application</text>
+  <text x="60" y="356" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Network</text>
+  <text x="170" y="356" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Standard dev access</text>
+  <text x="536" y="116" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">OS</text>
+  <text x="646" y="116" fill="#e2e8f0" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Ubuntu Server 24.04 LTS</text>
+  <text x="536" y="156" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">CPU</text>
+  <text x="646" y="156" fill="#86efac" font-size="14" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">16 vCPU</text>
+  <text x="536" y="196" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">RAM</text>
+  <text x="646" y="196" fill="#86efac" font-size="14" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">64 GB  ← primary driver</text>
+  <text x="536" y="236" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Storage</text>
+  <text x="646" y="236" fill="#86efac" font-size="14" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">1 TB SSD (separate data disk)</text>
+  <text x="536" y="276" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">GPU</text>
+  <text x="646" y="276" fill="#fde68a" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Optional — T4 / L4</text>
+  <text x="536" y="316" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Concurrency</text>
+  <text x="646" y="316" fill="#86efac" font-size="14" font-weight="bold" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">5 systems simultaneously</text>
+  <text x="536" y="356" fill="#94a3b8" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Network</text>
+  <text x="646" y="356" fill="#86efac" font-size="13" font-weight="600" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">Outbound HTTPS only</text>
+  <line x1="44" y1="128" x2="452" y2="128" stroke="#1e293b" stroke-width="1"/>
+  <line x1="44" y1="168" x2="452" y2="168" stroke="#1e293b" stroke-width="1"/>
+  <line x1="44" y1="208" x2="452" y2="208" stroke="#1e293b" stroke-width="1"/>
+  <line x1="44" y1="248" x2="452" y2="248" stroke="#1e293b" stroke-width="1"/>
+  <line x1="44" y1="288" x2="452" y2="288" stroke="#1e293b" stroke-width="1"/>
+  <line x1="44" y1="328" x2="452" y2="328" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="128" x2="916" y2="128" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="168" x2="916" y2="168" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="208" x2="916" y2="208" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="248" x2="916" y2="248" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="288" x2="916" y2="288" stroke="#1e293b" stroke-width="1"/>
+  <line x1="508" y1="328" x2="916" y2="328" stroke="#1e293b" stroke-width="1"/>
+  <text x="480" y="392" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="'DM Sans', -apple-system, 'Segoe UI', system-ui, sans-serif">64 GB is the minimum threshold for pilot results worth evaluating</text>
+</svg>

@@ -52,7 +52,7 @@ export function SlideEditor({ slide }: SlideEditorProps): ReactElement {
         >
           Speaker Notes
           <span className='ml-1 text-xs font-normal text-gray-400'>
-            (hidden in slide view, visible in article view)
+            (toggleable in slide view, always visible in article view)
           </span>
         </label>
         <textarea

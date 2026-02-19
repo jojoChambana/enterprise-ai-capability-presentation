@@ -25,6 +25,38 @@ const inputCls =
 const labelCls = 'block text-xs font-medium text-gray-600 mb-1';
 
 /**
+ * Shared toggle for marking a block as article-only (hidden in slide view).
+ */
+function ArticleOnlyToggle({
+  blockId,
+  checked,
+  onChange,
+}: {
+  blockId: string;
+  checked: boolean;
+  onChange: (value: boolean) => void;
+}): ReactElement {
+  return (
+    <label
+      htmlFor={`article-only-${blockId}`}
+      className='flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 cursor-pointer group'
+    >
+      <input
+        id={`article-only-${blockId}`}
+        type='checkbox'
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+      />
+      <span className='text-xs text-gray-500 group-hover:text-gray-700 transition-colors'>
+        Article view only
+        <span className='text-gray-400 ml-1'>(hidden in slide view)</span>
+      </span>
+    </label>
+  );
+}
+
+/**
  * Type-specific inline editor for a single content block.
  * Renders different form controls depending on block.type.
  */
@@ -34,6 +66,15 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
   const update = (
     updates: Partial<Omit<SlideContentBlock, 'id' | 'type'>>,
   ): void => updateBlock(slideId, block.id, updates);
+
+  /** Shared article-only toggle rendered after each block editor. */
+  const articleOnlyToggle = (
+    <ArticleOnlyToggle
+      blockId={block.id}
+      checked={!!block.articleOnly}
+      onChange={(value) => update({ articleOnly: value })}
+    />
+  );
 
   switch (block.type) {
     case 'heading':
@@ -69,6 +110,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
               placeholder='Heading text…'
             />
           </div>
+          {articleOnlyToggle}
         </div>
       );
 
@@ -86,6 +128,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
             className={`${inputCls} resize-y`}
             placeholder='Paragraph text…'
           />
+          {articleOnlyToggle}
         </div>
       );
 
@@ -127,6 +170,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
           >
             + Add Item
           </button>
+          {articleOnlyToggle}
         </div>
       );
 
@@ -166,6 +210,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
               autoCorrect='off'
             />
           </div>
+          {articleOnlyToggle}
         </div>
       );
 
@@ -211,6 +256,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
               placeholder='Image caption…'
             />
           </div>
+          {articleOnlyToggle}
         </div>
       );
 
@@ -231,6 +277,7 @@ export function BlockEditor({ slideId, block }: BlockEditorProps): ReactElement 
           <p className='mt-1 text-xs text-gray-400'>
             Renders as a 16:9 iframe. Use embeddable URLs (YouTube, Figma, etc.).
           </p>
+          {articleOnlyToggle}
         </div>
       );
 

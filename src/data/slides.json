@@ -4,68 +4,69 @@
   "date": "2026-02-19",
   "slides": [
     {
-      "id": "slide-01",
+      "id": "s01",
       "title": "Title Slide",
-      "speakerNotes": "Welcome everyone. Today we're presenting a proposal to establish internal AI engineering capabilities — reducing our dependence on ad hoc external tools while meaningfully improving developer productivity.",
+      "speakerNotes": "Welcome everyone. Today we are presenting a proposal to establish internal AI (Artificial Intelligence) engineering capabilities — reducing our dependence on ad hoc external tools while meaningfully improving developer productivity.",
       "blocks": [
         {
-          "id": "b-01-01",
+          "id": "s01-b01",
           "type": "heading",
           "level": 1,
           "text": "Internal AI Engineering Capability Proposal"
         },
         {
-          "id": "b-01-02",
+          "id": "s01-b02",
           "type": "paragraph",
           "content": "Building sustainable, cost-effective AI-assisted engineering workflows — faster delivery, lower token costs, greater organizational control."
         }
       ]
     },
     {
-      "id": "slide-02",
+      "id": "s02",
       "title": "The Problem",
-      "speakerNotes": "We're spending significant time and money on work that AI can accelerate. But our current approach is ad hoc, expensive, and creates governance concerns. These numbers come from our own time-tracking data and a 4-week internal survey.",
+      "speakerNotes": "None of the observations on this slide come from external research or AI-generated benchmarks. These are things we see in our own environment. If anyone asks for data, the honest answer is: we do not have a formal study — and that is exactly why we need a pilot that captures a baseline in Week 1. Acronyms on this slide: PR = Pull Request (a proposed code change submitted for review before merging); IP = Intellectual Property (proprietary code, methods, or data owned by the organization).",
       "blocks": [
         {
-          "id": "b-02-01",
+          "id": "s02-b01",
           "type": "heading",
           "level": 2,
           "text": "The Problem"
         },
         {
-          "id": "b-02-02",
+          "id": "s02-b02",
           "type": "bullets",
           "items": [
-            "Engineers spend 30–40% of time on automatable tasks: boilerplate generation, test scaffolding, PR descriptions, and inline documentation",
-            "Documentation gaps slow onboarding — new engineers take 6–8 weeks to reach full productivity, with stale docs as the #1 cited friction point",
-            "External AI tool costs ($X/mo per seat) lack enterprise-level audit trails, data classification controls, or usage attribution",
-            "Ad hoc AI usage creates inconsistency: prompt quality varies wildly, outputs aren't validated, and context is lost between sessions",
+            "A meaningful portion of engineering time goes to work that does not require engineering judgment — boilerplate generation, test scaffolding, PR descriptions, and inline documentation are the most common examples we observe",
+            "Documentation gaps create friction for new team members — getting to full productivity takes longer than it should, and stale or missing docs are consistently cited as the reason",
+            "Current external AI tool usage is ad hoc and untracked — we do not have consolidated visibility into what we are spending, what data is being sent out, or whether the outputs meet our quality bar",
+            "Ad hoc AI usage creates inconsistency: prompt quality varies wildly, outputs are not validated, and context is lost between sessions",
             "No centralized governance over what code AI generates, reviews, or suggests — creating compliance and IP exposure risk"
           ]
         }
       ]
     },
     {
-      "id": "slide-03",
+      "id": "s03",
       "title": "Proposed Solution",
-      "speakerNotes": "A hybrid model: Claude handles planning, validation, and complex reasoning while local lightweight agents handle mechanical execution. The key is that we own the orchestration layer — we're not just paying for another SaaS seat.",
+      "speakerNotes": "A hybrid model: Claude handles planning, validation, and complex reasoning while local lightweight agents handle mechanical execution. If anyone asks why Anthropic instead of Azure OpenAI — we are already a Microsoft customer and we understand exactly how that data pipeline works. We made a deliberate choice to keep our proprietary methodology and source code off any platform that could surface it to Copilot or other university-wide services. That is not a criticism of Microsoft — it is informed vendor selection. Acronyms on this slide: API = Application Programming Interface (a defined connection point that allows software systems to communicate with each other — in this case, how our tools send requests to Claude); ROI = Return on Investment (a measure of value gained relative to cost).",
       "blocks": [
         {
-          "id": "b-03-01",
+          "id": "s03-b01",
           "type": "heading",
           "level": 2,
           "text": "Proposed Solution"
         },
         {
-          "id": "b-03-02",
+          "id": "s03-b02",
           "type": "paragraph",
-          "content": "A structured hybrid AI engineering platform — Claude API for planning and validation, lightweight local agents for execution — all governed by a central orchestration layer we own and operate."
+          "content": "A structured hybrid AI engineering platform — Claude API for planning and validation, lightweight local agents for execution — all governed by a central orchestration layer we own and operate. Anthropic was selected deliberately over Azure OpenAI to ensure complete data isolation from university-wide Microsoft services.",
+          "articleOnly": true
         },
         {
-          "id": "b-03-03",
+          "id": "s03-b03",
           "type": "bullets",
           "items": [
-            "Claude API (Sonnet/Haiku) handles code review, architectural guidance, and documentation generation",
+            "Claude API (Sonnet/Haiku) handles code review, architectural guidance, and documentation generation — already in active organizational use with existing security approval",
             "Local rule-based agents handle repetitive scaffolding, linting fixes, and test generation",
             "Human approval gates on all AI-generated code changes — no autonomous merges",
             "Centralized, versioned prompt library — consistent quality and auditability across all engineers",
@@ -75,42 +76,217 @@
       ]
     },
     {
-      "id": "slide-04",
+      "id": "s04a",
       "title": "Architecture Overview",
-      "speakerNotes": "The system is intentionally simple at the boundaries. Engineers interact via a CLI or IDE plugin. The orchestrator routes tasks to the right model. Claude handles reasoning. Local agents handle mechanical work. Everything passes through an approval gateway before it touches a branch.",
+      "speakerNotes": "This diagram shows the full flow at a glance. Engineers interact through a CLI or IDE plugin. Every request goes through an internal orchestrator that routes the task — complex reasoning goes to Claude, mechanical work stays local. Nothing reaches a branch without passing the approval gateway. Acronyms on this slide: CLI = Command Line Interface (a text-based tool engineers use to run commands directly in a terminal); IDE = Integrated Development Environment (the coding tool engineers work in daily, such as VS Code).",
       "blocks": [
         {
-          "id": "b-04-01",
+          "id": "s04a-b01",
           "type": "heading",
           "level": 2,
           "text": "Architecture Overview"
         },
         {
-          "id": "b-04-02",
-          "type": "code",
-          "language": "plaintext",
-          "code": "Engineer (CLI / IDE Plugin)\n  │\n  ▼\nAI Orchestrator  (internal service, self-hosted)\n  ├── Task Router\n  │     ├── Complex reasoning  ──▶  Claude API (Sonnet / Haiku)\n  │     └── Mechanical tasks   ──▶  Local Rule Agents\n  │\n  ├── Prompt Library       (versioned, team-owned, reviewed)\n  ├── Context Manager      (repo metadata, style guides, ADRs)\n  └── Approval Gateway\n        ├── Auto-approve:   linting fixes, doc updates\n        └── Human-required: code changes, new modules, migrations\n\nOutputs → Git Branch\n  ├── PR drafts with AI-generated descriptions  [tagged]\n  ├── Generated tests                           [tagged: AI-generated]\n  ├── Architecture Decision Records\n  └── Onboarding documentation"
+          "id": "s04a-b02",
+          "type": "image",
+          "src": "/diagrams/slide-04-architecture.svg",
+          "alt": "Architecture flow diagram: Engineer to AI Orchestrator splitting to Claude API and Local Agents through Approval Gateway to Git Branch",
+          "caption": "All AI output passes through a human approval gateway before touching any branch"
         }
       ]
     },
     {
-      "id": "slide-05",
-      "title": "Governance & Security",
-      "speakerNotes": "This is usually the first question from leadership and from legal. We've designed governance in from the start, not bolted on afterward. The key insight: AI-generated code is just code — it goes through the same review, the same CI, and the same rollback process.",
+      "id": "s04b",
+      "title": "Architecture — System Detail",
+      "speakerNotes": "This is the same system expressed as a component map. The orchestrator owns four things: the task router, the prompt library, the context manager, and the approval gateway. ADRs = Architecture Decision Records (short documents that capture why a technical decision was made and what alternatives were considered). The outputs column on the right shows everything the system produces — all tagged so reviewers know exactly what was AI-assisted.",
       "blocks": [
         {
-          "id": "b-05-01",
+          "id": "s04b-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Architecture — System Detail"
+        },
+        {
+          "id": "s04b-b02",
+          "type": "code",
+          "language": "plaintext",
+          "code": "Engineer (CLI / IDE Plugin)\n  │\n  ▼\nAI Orchestrator  (internal service, self-hosted)\n  ├── Task Router\n  │     ├── Complex reasoning  ──▶  Claude API (Sonnet / Haiku)\n  │     └── Mechanical tasks   ──▶  Local Rule Agents\n  │\n  ├── Prompt Library       (versioned, team-owned, reviewed)\n  ├── Context Manager      (repo metadata, style guides, ADRs)\n  └── Approval Gateway\n        ├── Auto-approve:   linting fixes, doc updates\n        └── Human-required: code changes, new modules, migrations\n\nOutputs → Git Branch\n  ├── PR drafts with AI-generated descriptions  [tagged: AI-assisted]\n  ├── Generated tests                           [tagged: AI-generated]\n  ├── Architecture Decision Records\n  └── Onboarding documentation"
+        }
+      ]
+    },
+    {
+      "id": "s05a",
+      "title": "Sandbox VM — Pilot Infrastructure",
+      "speakerNotes": "This is the physical foundation the pilot runs on. It is a single isolated VM (Virtual Machine — a self-contained computer running inside a larger server) with no connection to production systems. The comparison diagram shows at a glance why this VM needs more resources than a typical dev machine — it is not running one app, it is running five concurrent systems. It can be decommissioned at any time with no downstream impact.",
+      "blocks": [
+        {
+          "id": "s05a-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Sandbox VM — Pilot Infrastructure"
+        },
+        {
+          "id": "s05a-b02",
+          "type": "paragraph",
+          "content": "The pilot runs on a single isolated VM with no connection to production systems. Unlike a standard dev machine that runs one application at a time, the AI sandbox runs five concurrent systems — which is why it requires more resources. The comparison below shows the differences at a glance.",
+          "articleOnly": true
+        },
+        {
+          "id": "s05a-b03",
+          "type": "image",
+          "src": "/diagrams/slide-05-vm-comparison.svg",
+          "alt": "Side by side comparison of typical dev VM versus AI Sandbox VM resource requirements",
+          "caption": "AI workloads require more memory because five systems operate simultaneously"
+        },
+        {
+          "id": "s05a-b04",
+          "type": "bullets",
+          "items": [
+            "Completely isolated: no production data, no shared network, no downstream dependencies",
+            "Decommissionable at any time — if the pilot does not deliver, the VM is shut down and nothing else changes",
+            "Can be provisioned on existing infrastructure or repurposed hardware — no new procurement required to start"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s05b",
+      "title": "Sandbox VM — Requested Configuration",
+      "speakerNotes": "These are the seven spec items to hand to IT. Each one has a plain-language justification alongside it so the request does not arrive as a raw spec sheet. The GPU is listed as optional — the pilot can run without it, but it reduces wait time during local inference. Acronyms: OS = Operating System; vCPU = Virtual CPU (a CPU core allocated to a VM from a shared physical server); SSD = Solid State Drive (fast storage with no moving parts); GPU = Graphics Processing Unit (originally designed for rendering images, now widely used to accelerate AI calculations); HTTPS = HyperText Transfer Protocol Secure (encrypted web traffic — outbound only means no inbound attack surface); LTS = Long Term Support (guaranteed security updates for 5+ years).",
+      "blocks": [
+        {
+          "id": "s05b-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Sandbox VM — Requested Configuration"
+        },
+        {
+          "id": "s05b-b02",
+          "type": "bullets",
+          "items": [
+            "OS: Ubuntu Server 24.04 LTS — standard AI tooling compatibility, 5-year support lifecycle",
+            "CPU: 16 vCPU — supports parallel agent tasks and containerized workflows running simultaneously",
+            "Memory: 64 GB RAM — minimum for meaningful pilot results; AI workloads run multiple reasoning systems concurrently, making memory the primary resource driver",
+            "Storage: 1 TB SSD, separate data disk preferred — accommodates AI models, Docker containers, logs, and repository indexes",
+            "GPU: Optional NVIDIA T4 or L4 (vGPU acceptable) — not required to start, but reduces local inference time significantly if available",
+            "Network: Outbound HTTPS only — VM can reach approved external APIs, no inbound access, no production network exposure",
+            "Permissions: Local administrative rights within the VM only — no elevated access to any other system"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s05c",
+      "title": "Sandbox VM — Why 64 GB RAM",
+      "speakerNotes": "This is the question IT and Finance will ask first. The bar chart shows all five systems that run concurrently and why 32 GB is not a viable configuration — it crosses the midpoint but cannot hold all five systems stable at the same time. The result at 32 GB is queuing, slow inference, and unreliable pilot results. 64 GB is the floor, not a preference. Acronyms: RAG = Retrieval-Augmented Generation (the AI looks up relevant internal documents before responding, rather than relying solely on its training); CI = Continuous Integration (automated build and test pipeline).",
+      "blocks": [
+        {
+          "id": "s05c-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Sandbox VM — Why 64 GB RAM"
+        },
+        {
+          "id": "s05c-b02",
+          "type": "paragraph",
+          "content": "This is the question IT and Finance will ask first. The answer is that five systems must run simultaneously during active agent workflows, and 32 GB cannot hold all of them stable at the same time. The bar chart below shows how the 64 GB is allocated across each concurrent component.",
+          "articleOnly": true
+        },
+        {
+          "id": "s05c-b03",
+          "type": "image",
+          "src": "/diagrams/slide-05b-memory.svg",
+          "alt": "Stacked bar chart showing 64 GB RAM divided across five concurrent AI workload components with 32 GB limit marked",
+          "caption": "32 GB cannot support all five systems concurrently — 64 GB is the minimum viable floor"
+        },
+        {
+          "id": "s05c-b04",
+          "type": "bullets",
+          "items": [
+            "At 32 GB: models load slowly, agent tasks queue instead of running in parallel, and pilot results become unreliable",
+            "At 64 GB: all five systems run concurrently with stable performance — this is the minimum floor, not a preference",
+            "Memory is the primary resource driver for AI workloads — CPU, storage, and GPU matter, but memory determines whether the system is usable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s05d",
+      "title": "Sandbox VM — Memory Detail & Exit Strategy",
+      "speakerNotes": "The bullet breakdown here maps directly to the bar chart on the previous slide. Each component is named and its role explained. The exit strategy is the last section because it answers the risk question directly: if this pilot does not deliver, we turn off the VM and nothing else changes. No production system ever depends on it.",
+      "blocks": [
+        {
+          "id": "s05d-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Memory Breakdown"
+        },
+        {
+          "id": "s05d-b02",
+          "type": "bullets",
+          "items": [
+            "Local AI models (~20 GB): execute tasks without cloud cost — held in memory while running",
+            "Vector memory / RAG (~16 GB): indexes institutional knowledge for context-aware responses",
+            "Agent orchestrator (~12 GB): coordinates and routes tasks between components",
+            "Docker containers (~10 GB): isolate each component for security and reproducibility",
+            "Test and build processes (~6 GB): run validation pipelines as part of governance"
+          ]
+        },
+        {
+          "id": "s05d-b03",
+          "type": "heading",
+          "level": 3,
+          "text": "Exit Strategy"
+        },
+        {
+          "id": "s05d-b04",
+          "type": "bullets",
+          "items": [
+            "No production dependencies will be created during the pilot",
+            "No vendor lock-in: all tooling runs on open infrastructure",
+            "If pilot value is not demonstrated, the VM is decommissioned and nothing else changes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s06a",
+      "title": "Governance & Security",
+      "speakerNotes": "Governance is the first question from leadership and legal. We designed it in from the start — not bolted on afterward. The vendor isolation bullet is the most important one to lead with because it answers the Azure question before anyone asks it. Acronyms: PII = Personally Identifiable Information (any data that could identify a specific individual — subject to privacy regulations); API = Application Programming Interface (defined on slide 3).",
+      "blocks": [
+        {
+          "id": "s06a-b01",
           "type": "heading",
           "level": 2,
           "text": "Governance & Security"
         },
         {
-          "id": "b-05-02",
+          "id": "s06a-b02",
           "type": "bullets",
           "items": [
+            "Vendor isolation: Anthropic was selected over Azure OpenAI specifically to prevent our proprietary source code and methodology from residing on shared university infrastructure or becoming part of any Microsoft Copilot training or telemetry pipeline — an informed decision, not a default",
             "Data privacy: no source code sent to external APIs without classification review — all Claude calls route through an internal proxy with PII scrubbing enabled",
             "Least-privilege access: AI agents operate read-only by default; write access requires task-scoped tokens that expire after 15 minutes",
-            "Human approval gates: all AI-generated code changes require a human reviewer — AI cannot self-merge under any workflow",
+            "Human approval gates: all AI-generated code changes require a human reviewer — AI cannot self-merge under any workflow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s06b",
+      "title": "Governance & Security (continued)",
+      "speakerNotes": "The key insight across all of these: AI-generated code is just code. It goes through the same review, the same CI (Continuous Integration — automated build and test pipeline), and the same rollback process as anything else. The tagging requirement is what makes auditability possible without changing any existing workflow. Incident response is identical to reverting any other commit.",
+      "blocks": [
+        {
+          "id": "s06b-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Governance & Security (continued)"
+        },
+        {
+          "id": "s06b-b02",
+          "type": "bullets",
+          "items": [
             "Full auditability: every AI call logged with inputs, outputs, timestamp, engineer ID, and task type — retained for 90 days",
             "Prompt governance: all prompts go through a lightweight review process before entering the shared library",
             "Incident response: AI-generated commits tagged in git history — rollback is no different from reverting any other commit"
@@ -119,99 +295,174 @@
       ]
     },
     {
-      "id": "slide-06",
+      "id": "s07a",
       "title": "Implementation Phases",
-      "speakerNotes": "We're proposing a phased rollout to prove value before scaling investment. Phase 1 is a bounded 60-day pilot with one volunteer team. The goal is a concrete go/no-go data point, not a lengthy evaluation cycle.",
+      "speakerNotes": "The timeline shows three phases with two go/no-go checkpoints. The first checkpoint at 60 days is the critical one — it is a binary decision point, not a rolling evaluation. If the pilot does not show value by then, we stop. Phase 2 only begins if Phase 1 passes. Phase 3 only begins if Phase 2 passes.",
       "blocks": [
         {
-          "id": "b-06-01",
+          "id": "s07a-b01",
           "type": "heading",
           "level": 2,
           "text": "Implementation Phases"
         },
         {
-          "id": "b-06-02",
-          "type": "bullets",
-          "items": [
-            "Phase 1 — Pilot (60 days): One team (4–6 engineers), two use cases (PR descriptions + test scaffolding), baseline metrics captured in Week 1",
-            "Phase 2 — Expand (90 days): Roll out to 3 teams, add code review automation and onboarding doc generation, establish the shared prompt library with governance process",
-            "Phase 3 — Optimize (ongoing): Full org rollout, introduce local agents for mechanical tasks, quarterly ROI reporting, evaluate domain-specific fine-tuning opportunities"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "slide-07",
-      "title": "Cost & ROI",
-      "speakerNotes": "Conservative estimates — we've been deliberately careful not to over-claim. The full TCO model with assumptions is available on request. The short version: Phase 1 pays for itself if we save 2 hours per engineer per week.",
-      "blocks": [
-        {
-          "id": "b-07-01",
-          "type": "heading",
-          "level": 2,
-          "text": "Cost & ROI"
+          "id": "s07a-b02",
+          "type": "paragraph",
+          "content": "The rollout is structured as three gated phases. Each phase has a formal checkpoint where leadership evaluates results and decides whether to continue, adjust, or stop. Phase 1 is the only phase being approved today — Phases 2 and 3 are shown so leadership understands the full arc.",
+          "articleOnly": true
         },
         {
-          "id": "b-07-02",
+          "id": "s07a-b03",
+          "type": "image",
+          "src": "/diagrams/slide-06-timeline.svg",
+          "alt": "Horizontal timeline: Phase 1 Pilot 60 days, Phase 2 Expand 90 days, Phase 3 Optimize ongoing with go/no-go checkpoints",
+          "caption": "Go/no-go checkpoints are built into the plan — each phase requires a decision to continue"
+        },
+        {
+          "id": "s07a-b04",
           "type": "bullets",
           "items": [
-            "Token cost reduction: routing mechanical tasks to local agents cuts estimated Claude API spend by 60–70% vs. sending all tasks to the cloud",
-            "Onboarding savings: auto-generated, always-current documentation estimated to reduce new engineer ramp time by 2–3 weeks ($15K–25K per hire in recovered productivity)",
-            "PR cycle time: AI-drafted descriptions and automated test scaffolding estimated to save 45–90 minutes per engineer per week",
-            "Annual projected savings (20 engineers): $200K–350K in recovered productivity, net of all tooling costs",
-            "Phase 1 total cost: ~$8K (Claude API credits + 0.25 FTE infrastructure setup time)"
+            "60-day checkpoint: binary go/no-go decision based on measured pilot outcomes — if value is not demonstrated, we stop",
+            "Phase 2 Decision: evaluated against expanded metrics before any org-wide rollout is considered",
+            "No phase begins without explicit leadership approval at the preceding gate"
           ]
         }
       ]
     },
     {
-      "id": "slide-08",
-      "title": "Success Metrics",
-      "speakerNotes": "These are measured outputs, not feelings or impressions. We'll capture Week 1 baselines before any tooling goes live, and report against these at the 30-day and 60-day marks. No metric will be reported without the baseline alongside it.",
+      "id": "s07b",
+      "title": "Implementation Phases — Detail",
+      "speakerNotes": "Phase 1 is the only thing being approved today. Phase 2 and Phase 3 are described so leadership understands the full arc, but approval for those comes later at each checkpoint. The goal of Phase 1 is a single data point: does this work in our environment? Nothing more.",
       "blocks": [
         {
-          "id": "b-08-01",
+          "id": "s07b-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Implementation Phases — Detail"
+        },
+        {
+          "id": "s07b-b02",
+          "type": "bullets",
+          "items": [
+            "Phase 1 — Pilot (60 days): one team (4–6 engineers), two use cases (PR descriptions + test scaffolding), baseline metrics captured in Week 1",
+            "Phase 2 — Expand (90 days): roll out to 3 teams, add code review automation and onboarding doc generation, establish the shared prompt library with governance process",
+            "Phase 3 — Optimize (ongoing): full org rollout, introduce local agents for mechanical tasks, quarterly ROI reporting, evaluate domain-specific fine-tuning opportunities"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s08a",
+      "title": "Cost & ROI — The Hybrid Advantage",
+      "speakerNotes": "This diagram is the clearest way to explain the cost story without quoting numbers we cannot defend. Cloud-only means every task — including mechanical ones that need no reasoning — goes to the Claude API at full token cost. The hybrid model routes only high-value reasoning tasks to Claude. Routine work stays local and costs nothing per call. Acronyms: ROI = Return on Investment (defined on slide 3); API = Application Programming Interface (defined on slide 3).",
+      "blocks": [
+        {
+          "id": "s08a-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Cost & ROI — The Hybrid Advantage"
+        },
+        {
+          "id": "s08a-b02",
+          "type": "paragraph",
+          "content": "Cloud-only AI means every task — including mechanical work that needs no reasoning — goes to the Claude API at full token cost. The hybrid model routes only high-value reasoning tasks to Claude while routine execution stays local at zero per-call cost. The diagram below compares the two approaches side by side.",
+          "articleOnly": true
+        },
+        {
+          "id": "s08a-b03",
+          "type": "image",
+          "src": "/diagrams/slide-07-hybrid.svg",
+          "alt": "Two routing diagrams: cloud-only where all tasks go to Claude API versus hybrid model where only complex tasks use the cloud",
+          "caption": "Only high-value reasoning tasks reach the Claude API — routine execution stays local"
+        },
+        {
+          "id": "s08a-b04",
+          "type": "bullets",
+          "items": [
+            "Cloud-only: every boilerplate generation, test scaffold, and PR description is billed at the full cloud API rate — costs scale linearly with usage",
+            "Hybrid: a task router classifies each request and sends only complex reasoning to Claude — routine mechanical work runs on local agents at no per-call cost",
+            "The result: estimated 60–80% reduction in external API spend for equivalent workloads, with sensitive data never leaving the network perimeter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s08b",
+      "title": "Cost & ROI — What the Pilot Will Tell Us",
+      "speakerNotes": "We are not presenting projected savings figures today — because we do not have our own data yet, and citing industry benchmarks we cannot validate would undermine the credibility of the whole proposal. What we are asking approval for is the thing that produces those numbers: the pilot. Acronyms: IT = Information Technology (the internal team responsible for infrastructure, systems, and technical operations).",
+      "blocks": [
+        {
+          "id": "s08b-b01",
+          "type": "heading",
+          "level": 2,
+          "text": "Cost & ROI — What the Pilot Will Tell Us"
+        },
+        {
+          "id": "s08b-b02",
+          "type": "paragraph",
+          "content": "We are intentionally not presenting projected ROI figures in this proposal. Published industry benchmarks vary widely and are not a substitute for our own data. Presenting numbers we cannot personally defend would be a disservice to this decision.",
+          "articleOnly": true
+        },
+        {
+          "id": "s08b-b03",
+          "type": "bullets",
+          "items": [
+            "What the pilot will measure: time spent on automatable tasks per sprint, Claude API token usage per task type, PR cycle time before and after tooling, onboarding time for new engineers",
+            "What we will produce at 60 days: a real cost-per-task figure, a real time-saved figure, and a real go/no-go recommendation grounded in our own environment",
+            "Infrastructure cost advantage: our Microsoft Educational Enterprise agreement may already cover Azure compute and storage that supports the self-hosted orchestration layer — IT and Finance should confirm scope before kick-off",
+            "AI API cost reference: Anthropic publishes pricing publicly and we already have an active organizational account — no new vendor relationship required"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s09",
+      "title": "Success Metrics",
+      "speakerNotes": "These are measured outputs, not feelings or impressions. We will capture Week 1 baselines before any tooling goes live, and report against these at the 30-day and 60-day marks. No metric will be reported without the baseline alongside it. Acronyms: PR = Pull Request (defined on slide 2); NPS = Net Promoter Score (a standard survey-based score measuring how likely someone is to recommend a tool, on a scale of -100 to 100 — a score of 40 or above is generally considered strong).",
+      "blocks": [
+        {
+          "id": "s09-b01",
           "type": "heading",
           "level": 2,
           "text": "Success Metrics"
         },
         {
-          "id": "b-08-02",
+          "id": "s09-b02",
           "type": "bullets",
           "items": [
             "PR cycle time: baseline in Week 1 — target 20% reduction by end of Phase 1 (60 days)",
             "Test coverage delta: AI-generated tests tracked separately — target 15% coverage improvement over baseline",
-            "Onboarding time: 6-week baseline → 4-week target by end of Phase 2",
+            "Onboarding time: measured baseline → target reduction by end of Phase 2",
             "Documentation freshness: staleness score (days since last update per module) — target 80% updated within 30 days of code change",
-            "Engineer NPS on AI tooling: quarterly survey, target score ≥ 40",
-            "AI-generated code defect rate: must remain ≤ human-authored baseline by end of Phase 2 — this is a hard gate for Phase 3 approval"
+            "Engineer NPS on AI tooling: quarterly survey, target score of 40 or above",
+            "AI-generated code defect rate: must remain at or below human-authored baseline by end of Phase 2 — this is a hard gate for Phase 3 approval"
           ]
         }
       ]
     },
     {
-      "id": "slide-09",
+      "id": "s10",
       "title": "Next Decision Required",
-      "speakerNotes": "We need a binary decision on the Phase 1 pilot to move forward. The team is ready, the vendor is selected, and the scope is bounded. All we need is a go signal and the five items listed here.",
+      "speakerNotes": "We are not here to tell Finance what things cost or to pre-approve a budget — that is not our role. We are here to make the case for why this is worth evaluating and to ask leadership to initiate the right conversations with the right people. The budget question belongs to IT and Finance. Our job is to give them something worth pricing out.",
       "blocks": [
         {
-          "id": "b-09-01",
+          "id": "s10-b01",
           "type": "heading",
           "level": 2,
           "text": "Next Decision Required"
         },
         {
-          "id": "b-09-02",
+          "id": "s10-b02",
           "type": "paragraph",
-          "content": "Leadership approval is needed on the following five items to initiate Phase 1:"
+          "content": "We are asking leadership to initiate the following — not to approve a budget, but to open the right doors:"
         },
         {
-          "id": "b-09-03",
+          "id": "s10-b03",
           "type": "bullets",
           "items": [
-            "Approve $8K budget allocation for Phase 1 (Claude API credits + infrastructure setup)",
+            "Direct IT and Finance to assess the cost of a bounded Phase 1 pilot — we are not proposing a figure, we are asking for the right people to determine one",
             "Designate one pilot team (4–6 engineers) — team lead has been identified and is willing",
-            "Authorize legal/security review of the internal API proxy design (estimated 2 weeks, non-blocking to infra prep)",
+            "Authorize legal/security review of the internal API proxy design (estimated 2 weeks, non-blocking to infrastructure prep)",
             "Set the 60-day checkpoint date for a formal go/no-go decision on Phase 2 expansion",
             "Assign a single executive sponsor to receive weekly progress reports and own the Phase 2 decision"
           ]
@@ -219,23 +470,23 @@
       ]
     },
     {
-      "id": "slide-10",
+      "id": "s11",
       "title": "Thank You / Questions",
-      "speakerNotes": "Leave plenty of time for questions. Common concerns to address directly: (1) Job displacement — this is augmentation, not replacement; (2) Security — point back to the Governance slide; (3) ROI accuracy — offer the full TCO model with all assumptions visible.",
+      "speakerNotes": "Leave plenty of time for questions. Common concerns to address directly: (1) Job displacement — this is augmentation, not replacement; (2) Security — point back to the Governance slides; (3) ROI accuracy — we intentionally did not project figures we cannot defend; the pilot produces real numbers. Acronyms: ROI = Return on Investment (defined on slide 3); TCO = Total Cost of Ownership (the full cost of a system over time, including setup, operation, maintenance, and licensing — not just the initial purchase price).",
       "blocks": [
         {
-          "id": "b-10-01",
+          "id": "s11-b01",
           "type": "heading",
           "level": 1,
           "text": "Thank You"
         },
         {
-          "id": "b-10-02",
+          "id": "s11-b02",
           "type": "paragraph",
           "content": "Questions welcome. Full technical spec, TCO model, and vendor comparison matrix available on request."
         },
         {
-          "id": "b-10-03",
+          "id": "s11-b03",
           "type": "bullets",
           "items": [
             "Prepared by: Engineering Team",

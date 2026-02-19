@@ -2,14 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset body styles — Vite template defaults conflict with Tailwind */
-body {
-  margin: 0;
-  display: block;
-  min-height: 100vh;
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
+@layer base {
+  body {
+    margin: 0;
+    display: block;
+    min-height: 100vh;
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus styles — WCAG 2.4.7 compliant visible focus indicators */
+  :focus-visible {
+    outline: 2px solid #C9A96E;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 10000;
+    padding: 0.5rem 1rem;
+    background: #C9A96E;
+    color: #0F1729;
+    font-weight: 600;
+    border-radius: 0 0 6px 6px;
+    text-decoration: none;
+    transition: top 150ms ease;
+  }
+  .skip-link:focus {
+    top: 0;
+    outline: 3px solid #F0EDE6;
+    outline-offset: 2px;
+  }
 }
 
-/* Prism.js code blocks — ensure font and layout */
+/* ============================================================
+   COMPONENT LAYER
+   ============================================================ */
+@layer components {
+  /* Slide content entry animation */
+  .slide-content {
+    animation: fadeInUp 500ms ease both;
+  }
+
+  /* Header/footer glass effect */
+  .glass-chrome {
+    background: rgba(15, 23, 41, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Article-view glass header */
+  .glass-chrome-light {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Gold gradient progress bar */
+  .progress-gold {
+    background: linear-gradient(90deg, #9A7E4F, #C9A96E, #DFC089);
+  }
+
+  /* Gold accent underline for headings */
+  .heading-accent::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 2px;
+    background: #C9A96E;
+    margin-top: 0.75rem;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  .card-hover:hover {
+    border-color: rgba(201, 169, 110, 0.25);
+    box-shadow: 0 0 20px rgba(201, 169, 110, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Sidebar/drawer gold active indicator */
+  .toc-active {
+    color: #C9A96E;
+    background: rgba(201, 169, 110, 0.08);
+    border-left: 3px solid #C9A96E;
+    font-weight: 500;
+  }
+
+  /* Confidential badge */
+  .badge-confidential {
+    padding: 0.2rem 0.6rem;
+    background: rgba(201, 169, 110, 0.12);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    border-radius: 100px;
+    font-size: 0.65rem;
+    color: #DFC089;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Keyboard hint */
+  .kbd-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.3rem;
+    height: 1.3rem;
+    padding: 0 0.3rem;
+    background: #1C2738;
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    border-radius: 3px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.6rem;
+    color: #9BA4B4;
+  }
+}
+
+/* ============================================================
+   UTILITY LAYER
+   ============================================================ */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ============================================================
+   PRISM CODE BLOCKS
+   ============================================================ */
 pre[class*='language-'],
 code[class*='language-'] {
   font-family: 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
@@ -18,4 +149,66 @@ code[class*='language-'] {
 pre[class*='language-'] {
   margin: 0;
   border-radius: 0 0 0.5rem 0.5rem;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 150ms ease-out forwards;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .slide-content {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   LANDSCAPE + SMALL VIEWPORT ADJUSTMENTS
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .slide-content {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+  body {
+    overflow: visible;
+    height: auto;
+    background: #fff;
+    color: #111;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    position: static !important;
+    overflow: visible !important;
+  }
 }

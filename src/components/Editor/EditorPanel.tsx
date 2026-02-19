@@ -235,9 +235,11 @@ export function EditorPanel(): ReactElement {
               </p>
             </div>
             <div className='flex-1 p-6 space-y-5'>
-              {selectedSlide.blocks.map((block) => (
-                <BlockRenderer key={block.id} block={block} dark />
-              ))}
+              {selectedSlide.blocks
+                .filter((block) => !block.articleOnly)
+                .map((block) => (
+                  <BlockRenderer key={block.id} block={block} dark />
+                ))}
               {selectedSlide.blocks.length === 0 && (
                 <p className='text-slate-600 text-sm italic text-center mt-8'>
                   No blocks yet

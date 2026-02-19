@@ -1,5 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react';
 import type { ReactElement } from 'react';
+import { ImageBlock } from './ImageBlock';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
 // Language components (order matters — dependencies first)
@@ -24,7 +25,6 @@ interface CodeBlockProps {
 function CodeBlock({ code, language }: CodeBlockProps): ReactElement {
   const codeRef = useRef<HTMLElement>(null);
 
-  // Determine if Prism has this language loaded
   const resolvedLang = useMemo(
     () => (Prism.languages[language] ? language : 'plaintext'),
     [language],
@@ -59,39 +59,56 @@ export interface BlockRendererProps {
 /**
  * Renders a single SlideContentBlock based on its type.
  * Shared by SlideViewer, ArticleViewer, and the editor's live preview.
+ *
+ * Uses DM Serif Display for headings and DM Sans for body text
+ * to create an executive editorial aesthetic.
  */
 export function BlockRenderer({
   block,
   dark = false,
 }: BlockRendererProps): ReactElement | null {
-  const textPrimary = dark ? 'text-white' : 'text-gray-900';
-  const textSecondary = dark ? 'text-gray-200' : 'text-gray-700';
-  const textMuted = dark ? 'text-gray-400' : 'text-gray-500';
+  /* Dark mode = navy/gold slide view; light mode = white article view */
+  const textPrimary = dark ? 'text-cream' : 'text-gray-900';
+  const textSecondary = dark ? 'text-gray-300' : 'text-gray-700';
 
   switch (block.type) {
     case 'heading': {
-      const cls = `font-bold ${textPrimary}`;
+      const base = `font-display font-bold leading-tight ${textPrimary}`;
       if (block.level === 1)
         return (
-          <h1 className={`text-4xl md:text-5xl lg:text-6xl ${cls} mb-4 leading-tight`}>
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${base} mb-4 text-balance`}>
             {block.text}
           </h1>
         );
       if (block.level === 3)
         return (
-          <h3 className={`text-2xl md:text-3xl ${cls} mb-3`}>{block.text}</h3>
+          <h3 className={`text-xl sm:text-2xl md:text-3xl ${base} mb-3`}>
+            {block.text}
+          </h3>
         );
       return (
-        <h2 className={`text-3xl md:text-4xl ${cls} mb-4`}>{block.text}</h2>
+        <h2 className={`text-2xl sm:text-3xl md:text-4xl ${base} mb-4 heading-accent`}>
+          {block.text}
+        </h2>
       );
     }
 
     case 'bullets':
       return (
-        <ul className={`list-disc list-outside ml-6 space-y-2 ${textSecondary} text-lg md:text-xl`}>
+        <ul
+          className={`space-y-3 ${textSecondary} text-base sm:text-lg md:text-xl font-body`}
+          role='list'
+        >
           {(block.items ?? []).map((item, idx) => (
-            <li key={idx} className='leading-relaxed'>
-              {item}
+            <li
+              key={idx}
+              className='leading-relaxed flex gap-3 items-start'
+            >
+              <span
+                className={`mt-2.5 w-1.5 h-1.5 rounded-full shrink-0 ${dark ? 'bg-gold' : 'bg-amber-500'}`}
+                aria-hidden='true'
+              />
+              <span>{item}</span>
             </li>
           ))}
         </ul>
@@ -102,20 +119,12 @@ export function BlockRenderer({
 
     case 'image':
       return (
-        <figure className='my-4'>
-          {block.src && (
-            <img
-              src={block.src}
-              alt={block.alt ?? ''}
-              className='max-w-full rounded-lg shadow-lg mx-auto'
-            />
-          )}
-          {block.caption && (
-            <figcaption className={`text-center text-sm mt-2 ${textMuted}`}>
-              {block.caption}
-            </figcaption>
-          )}
-        </figure>
+        <ImageBlock
+          src={block.src}
+          alt={block.alt}
+          caption={block.caption}
+          dark={dark}
+        />
       );
 
     case 'embed':
@@ -132,7 +141,7 @@ export function BlockRenderer({
 
     case 'paragraph':
       return (
-        <p className={`text-lg md:text-xl leading-relaxed ${textSecondary}`}>
+        <p className={`text-base sm:text-lg md:text-xl leading-relaxed font-body ${textSecondary}`}>
           {block.content}
         </p>
       );
