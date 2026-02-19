@@ -1,0 +1,249 @@
+{
+  "title": "Internal AI Engineering Capability Proposal",
+  "author": "Engineering Team",
+  "date": "2026-02-19",
+  "slides": [
+    {
+      "id": "slide-01",
+      "title": "Title Slide",
+      "speakerNotes": "Welcome everyone. Today we're presenting a proposal to establish internal AI engineering capabilities — reducing our dependence on ad hoc external tools while meaningfully improving developer productivity.",
+      "blocks": [
+        {
+          "id": "b-01-01",
+          "type": "heading",
+          "level": 1,
+          "text": "Internal AI Engineering Capability Proposal"
+        },
+        {
+          "id": "b-01-02",
+          "type": "paragraph",
+          "content": "Building sustainable, cost-effective AI-assisted engineering workflows — faster delivery, lower token costs, greater organizational control."
+        }
+      ]
+    },
+    {
+      "id": "slide-02",
+      "title": "The Problem",
+      "speakerNotes": "We're spending significant time and money on work that AI can accelerate. But our current approach is ad hoc, expensive, and creates governance concerns. These numbers come from our own time-tracking data and a 4-week internal survey.",
+      "blocks": [
+        {
+          "id": "b-02-01",
+          "type": "heading",
+          "level": 2,
+          "text": "The Problem"
+        },
+        {
+          "id": "b-02-02",
+          "type": "bullets",
+          "items": [
+            "Engineers spend 30–40% of time on automatable tasks: boilerplate generation, test scaffolding, PR descriptions, and inline documentation",
+            "Documentation gaps slow onboarding — new engineers take 6–8 weeks to reach full productivity, with stale docs as the #1 cited friction point",
+            "External AI tool costs ($X/mo per seat) lack enterprise-level audit trails, data classification controls, or usage attribution",
+            "Ad hoc AI usage creates inconsistency: prompt quality varies wildly, outputs aren't validated, and context is lost between sessions",
+            "No centralized governance over what code AI generates, reviews, or suggests — creating compliance and IP exposure risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-03",
+      "title": "Proposed Solution",
+      "speakerNotes": "A hybrid model: Claude handles planning, validation, and complex reasoning while local lightweight agents handle mechanical execution. The key is that we own the orchestration layer — we're not just paying for another SaaS seat.",
+      "blocks": [
+        {
+          "id": "b-03-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Proposed Solution"
+        },
+        {
+          "id": "b-03-02",
+          "type": "paragraph",
+          "content": "A structured hybrid AI engineering platform — Claude API for planning and validation, lightweight local agents for execution — all governed by a central orchestration layer we own and operate."
+        },
+        {
+          "id": "b-03-03",
+          "type": "bullets",
+          "items": [
+            "Claude API (Sonnet/Haiku) handles code review, architectural guidance, and documentation generation",
+            "Local rule-based agents handle repetitive scaffolding, linting fixes, and test generation",
+            "Human approval gates on all AI-generated code changes — no autonomous merges",
+            "Centralized, versioned prompt library — consistent quality and auditability across all engineers",
+            "Usage tracked per team and task type for continuous ROI measurement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-04",
+      "title": "Architecture Overview",
+      "speakerNotes": "The system is intentionally simple at the boundaries. Engineers interact via a CLI or IDE plugin. The orchestrator routes tasks to the right model. Claude handles reasoning. Local agents handle mechanical work. Everything passes through an approval gateway before it touches a branch.",
+      "blocks": [
+        {
+          "id": "b-04-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Architecture Overview"
+        },
+        {
+          "id": "b-04-02",
+          "type": "code",
+          "language": "plaintext",
+          "code": "Engineer (CLI / IDE Plugin)\n  │\n  ▼\nAI Orchestrator  (internal service, self-hosted)\n  ├── Task Router\n  │     ├── Complex reasoning  ──▶  Claude API (Sonnet / Haiku)\n  │     └── Mechanical tasks   ──▶  Local Rule Agents\n  │\n  ├── Prompt Library       (versioned, team-owned, reviewed)\n  ├── Context Manager      (repo metadata, style guides, ADRs)\n  └── Approval Gateway\n        ├── Auto-approve:   linting fixes, doc updates\n        └── Human-required: code changes, new modules, migrations\n\nOutputs → Git Branch\n  ├── PR drafts with AI-generated descriptions  [tagged]\n  ├── Generated tests                           [tagged: AI-generated]\n  ├── Architecture Decision Records\n  └── Onboarding documentation"
+        }
+      ]
+    },
+    {
+      "id": "slide-05",
+      "title": "Governance & Security",
+      "speakerNotes": "This is usually the first question from leadership and from legal. We've designed governance in from the start, not bolted on afterward. The key insight: AI-generated code is just code — it goes through the same review, the same CI, and the same rollback process.",
+      "blocks": [
+        {
+          "id": "b-05-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Governance & Security"
+        },
+        {
+          "id": "b-05-02",
+          "type": "bullets",
+          "items": [
+            "Data privacy: no source code sent to external APIs without classification review — all Claude calls route through an internal proxy with PII scrubbing enabled",
+            "Least-privilege access: AI agents operate read-only by default; write access requires task-scoped tokens that expire after 15 minutes",
+            "Human approval gates: all AI-generated code changes require a human reviewer — AI cannot self-merge under any workflow",
+            "Full auditability: every AI call logged with inputs, outputs, timestamp, engineer ID, and task type — retained for 90 days",
+            "Prompt governance: all prompts go through a lightweight review process before entering the shared library",
+            "Incident response: AI-generated commits tagged in git history — rollback is no different from reverting any other commit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-06",
+      "title": "Implementation Phases",
+      "speakerNotes": "We're proposing a phased rollout to prove value before scaling investment. Phase 1 is a bounded 60-day pilot with one volunteer team. The goal is a concrete go/no-go data point, not a lengthy evaluation cycle.",
+      "blocks": [
+        {
+          "id": "b-06-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Implementation Phases"
+        },
+        {
+          "id": "b-06-02",
+          "type": "bullets",
+          "items": [
+            "Phase 1 — Pilot (60 days): One team (4–6 engineers), two use cases (PR descriptions + test scaffolding), baseline metrics captured in Week 1",
+            "Phase 2 — Expand (90 days): Roll out to 3 teams, add code review automation and onboarding doc generation, establish the shared prompt library with governance process",
+            "Phase 3 — Optimize (ongoing): Full org rollout, introduce local agents for mechanical tasks, quarterly ROI reporting, evaluate domain-specific fine-tuning opportunities"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-07",
+      "title": "Cost & ROI",
+      "speakerNotes": "Conservative estimates — we've been deliberately careful not to over-claim. The full TCO model with assumptions is available on request. The short version: Phase 1 pays for itself if we save 2 hours per engineer per week.",
+      "blocks": [
+        {
+          "id": "b-07-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Cost & ROI"
+        },
+        {
+          "id": "b-07-02",
+          "type": "bullets",
+          "items": [
+            "Token cost reduction: routing mechanical tasks to local agents cuts estimated Claude API spend by 60–70% vs. sending all tasks to the cloud",
+            "Onboarding savings: auto-generated, always-current documentation estimated to reduce new engineer ramp time by 2–3 weeks ($15K–25K per hire in recovered productivity)",
+            "PR cycle time: AI-drafted descriptions and automated test scaffolding estimated to save 45–90 minutes per engineer per week",
+            "Annual projected savings (20 engineers): $200K–350K in recovered productivity, net of all tooling costs",
+            "Phase 1 total cost: ~$8K (Claude API credits + 0.25 FTE infrastructure setup time)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-08",
+      "title": "Success Metrics",
+      "speakerNotes": "These are measured outputs, not feelings or impressions. We'll capture Week 1 baselines before any tooling goes live, and report against these at the 30-day and 60-day marks. No metric will be reported without the baseline alongside it.",
+      "blocks": [
+        {
+          "id": "b-08-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Success Metrics"
+        },
+        {
+          "id": "b-08-02",
+          "type": "bullets",
+          "items": [
+            "PR cycle time: baseline in Week 1 — target 20% reduction by end of Phase 1 (60 days)",
+            "Test coverage delta: AI-generated tests tracked separately — target 15% coverage improvement over baseline",
+            "Onboarding time: 6-week baseline → 4-week target by end of Phase 2",
+            "Documentation freshness: staleness score (days since last update per module) — target 80% updated within 30 days of code change",
+            "Engineer NPS on AI tooling: quarterly survey, target score ≥ 40",
+            "AI-generated code defect rate: must remain ≤ human-authored baseline by end of Phase 2 — this is a hard gate for Phase 3 approval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-09",
+      "title": "Next Decision Required",
+      "speakerNotes": "We need a binary decision on the Phase 1 pilot to move forward. The team is ready, the vendor is selected, and the scope is bounded. All we need is a go signal and the five items listed here.",
+      "blocks": [
+        {
+          "id": "b-09-01",
+          "type": "heading",
+          "level": 2,
+          "text": "Next Decision Required"
+        },
+        {
+          "id": "b-09-02",
+          "type": "paragraph",
+          "content": "Leadership approval is needed on the following five items to initiate Phase 1:"
+        },
+        {
+          "id": "b-09-03",
+          "type": "bullets",
+          "items": [
+            "Approve $8K budget allocation for Phase 1 (Claude API credits + infrastructure setup)",
+            "Designate one pilot team (4–6 engineers) — team lead has been identified and is willing",
+            "Authorize legal/security review of the internal API proxy design (estimated 2 weeks, non-blocking to infra prep)",
+            "Set the 60-day checkpoint date for a formal go/no-go decision on Phase 2 expansion",
+            "Assign a single executive sponsor to receive weekly progress reports and own the Phase 2 decision"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide-10",
+      "title": "Thank You / Questions",
+      "speakerNotes": "Leave plenty of time for questions. Common concerns to address directly: (1) Job displacement — this is augmentation, not replacement; (2) Security — point back to the Governance slide; (3) ROI accuracy — offer the full TCO model with all assumptions visible.",
+      "blocks": [
+        {
+          "id": "b-10-01",
+          "type": "heading",
+          "level": 1,
+          "text": "Thank You"
+        },
+        {
+          "id": "b-10-02",
+          "type": "paragraph",
+          "content": "Questions welcome. Full technical spec, TCO model, and vendor comparison matrix available on request."
+        },
+        {
+          "id": "b-10-03",
+          "type": "bullets",
+          "items": [
+            "Prepared by: Engineering Team",
+            "Contact: [engineering@yourcompany.com]",
+            "Supporting materials available at: /docs/ai-capability-proposal/"
+          ]
+        }
+      ]
+    }
+  ]
+}

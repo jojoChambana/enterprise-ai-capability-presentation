@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset body styles — Vite template defaults conflict with Tailwind */
+body {
+  margin: 0;
+  display: block;
+  min-height: 100vh;
+}
+
+/* Prism.js code blocks — ensure font and layout */
+pre[class*='language-'],
+code[class*='language-'] {
+  font-family: 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
+}
+
+pre[class*='language-'] {
+  margin: 0;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
