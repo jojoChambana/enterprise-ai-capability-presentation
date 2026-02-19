@@ -142,6 +142,26 @@ npm run deploy
 
 ---
 
+## Supporting Documents
+
+The `docs/` folder contains supporting materials for this presentation:
+
+| File | Description |
+|---|---|
+| `Presentation_Script.docx` | Standalone speaker script with delivery cues, emotional beats, and Q&A preparation |
+| `build-presentation-script.cjs` | Node script that generates the .docx (run with `node docs/build-presentation-script.cjs`) |
+
+### Regenerating the Presentation Script
+
+```bash
+npm install docx
+node docs/build-presentation-script.cjs
+```
+
+The generated `.docx` will be written to `docs/Presentation_Script.docx`.
+
+---
+
 ## Project Structure
 
 ```
