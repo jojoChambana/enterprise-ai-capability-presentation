@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C C:/Users/josephc/Projects/enterprise-ai-capability-presentation branch -a)",
+      "Bash(cat:*)",
+      "Bash(npm run deploy:*)"
+    ]
+  }
+}
